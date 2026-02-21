@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ticket Booking System</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: linear-gradient(135deg, #f1fe06, #f13f04);
+      color: white;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    .card {
+      background: white;
+      color: black;
+      width: 400px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #2a5298;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1e3c72;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🎟 Ticket Booking</h1>
+    <p>Total Seats: 100</p>
+    <p>Remaining Seats: <span id="remaining">Loading...</span></p>
+    <button onclick="bookTicket()">Book Ticket</button>
+    <div class="status" id="status"></div>
+  </div>
+
+<script>
+async function loadSeats() {
+  const res = await fetch("/api/seats");
+  const data = await res.json();
+  document.getElementById("remaining").innerText = data.remaining;
+}
+
+async function bookTicket() {
+  const res = await fetch("/api/book", { method: "POST" });
+  const data = await res.json();
+
+  if (data.success) {
+    document.getElementById("status").innerText = "✅ Booking Successful!";
+  } else {
+    document.getElementById("status").innerText = "❌ House Full!";
+  }
+
+  loadSeats();
+}
+
+loadSeats();
+</script>
+
+</body>
+</html>
