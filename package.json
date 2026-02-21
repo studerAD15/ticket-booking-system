@@ -12,8 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@upstash/redis": "^1.36.2",
     "express": "^5.2.1",
-    "redis": "^5.11.0",
     "uuid": "^13.0.0"
   }
 }
